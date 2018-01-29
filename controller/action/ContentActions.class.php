@@ -364,4 +364,10 @@ class ContentActions extends Actions
       'posts' => array_slice(Post::find(static::VIEW_FOLDER_NEWS, Post::SORT_DATE_DESC), 0, $count)
     ];
   }
+  public static function preparePostCategoryFilter(string $category)
+  {
+    $post = ContentActions::executeNews(null);
+
+    return ['content/news', 'posts'=>$post];
+  }
 }
