@@ -184,6 +184,16 @@ class Post
 
   public function setTags(array $tags)
   {
+    // commas are used as the delimiter for tags, so forbid tags containing them.
+    foreach ($tags as $tag) {
+      if (strpos($tag, ',') !== false) {
+        throw new InvalidArgumentException('tags can not contain commas (found in "' . $tag . '")');
+      }
+    }
+
+    // keep tag list unique.
+    $tags = array_unique($tags);
+
     $this->tags = $tags;
   }
 
