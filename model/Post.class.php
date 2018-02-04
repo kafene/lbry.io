@@ -182,8 +182,18 @@ class Post
     return $this->tags;
   }
 
-  public function setTags(array $tags)
+  public function setTags($tags)
   {
+    if (is_string($tags)) {
+      // this tokenizes a comma-delimited list, ignoring whitespace between elements and without empty elements.
+      // e.g. '  foo , bar,,, baz   ,qux,' => ['foo', 'bar', 'baz', 'qux']
+      $tags = preg_split('/\s*,\s*/', trim($tags), null, PREG_SPLIT_NO_EMPTY);
+    }
+
+    if (!is_array($tags)) {
+      throw new InvalidArgumentException('tags must be an array');
+    }
+
     // commas are used as the delimiter for tags, so forbid tags containing them.
     foreach ($tags as $tag) {
       if (strpos($tag, ',') !== false) {
