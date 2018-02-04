@@ -92,7 +92,7 @@
     {
       max-width: $max-text-width;
       margin-left: auto;
-      margin-right: auto; 
+      margin-right: auto;
       + li
       {
         margin-top: $spacing-vertical;
@@ -172,6 +172,26 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .tag-list {
+    display: inline;
+
+    li {
+      display: inline;
+
+      &:not(:last-of-type):after {
+        content: ', ';
+      }
+    }
+    a {
+      color: $color-primary;
+      text-decoration: underline;
+
+      &:before {
+        content: '#';
+      }
+    }
   }
 }
 .content-inset
