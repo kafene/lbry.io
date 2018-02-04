@@ -9,8 +9,10 @@ class ContentActions extends Actions
     SLUG_PRESS = 'press',
     SLUG_BOUNTY = 'bounty',
     SLUG_CREDIT_REPORTS = 'credit-reports',
+    SLUG_TAG = 'tag',
 
     URL_NEWS = '/' . self::SLUG_NEWS,
+    URL_NEWS_TAG = '/' . self::SLUG_NEWS . '/' . self::SLUG_TAG,
     URL_FAQ = '/' . self::SLUG_FAQ,
     URL_PRESS = '/' . self::SLUG_PRESS,
     URL_BOUNTY = '/' . self::SLUG_BOUNTY,
@@ -70,6 +72,28 @@ class ContentActions extends Actions
 
     return ['content/news-post', [
       'post'              => $post,
+      View::LAYOUT_PARAMS => [
+        'showRssLink' => true
+      ]
+    ]];
+  }
+
+  public static function executeNewsTag(string $tags): array
+  {
+    Response::enableHttpCache();
+
+    $tags = preg_split('/\s*[,]\s*/', urldecode($tags), -1, PREG_SPLIT_NO_EMPTY);
+
+    $posts = array_filter(
+      Post::find(static::VIEW_FOLDER_NEWS, Post::SORT_DATE_DESC),
+      function(Post $post) use ($tags) {
+        return count(array_intersect($post->getTags(), $tags)) === count($tags) &&
+          (!$post->getDate() || $post->getDate()->format('U') <= date('U'));
+      });
+
+    return ['content/news', [
+      'posts'             => $posts,
+      'tags'              => $tags,
       View::LAYOUT_PARAMS => [
         'showRssLink' => true
       ]

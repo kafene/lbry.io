@@ -175,6 +175,7 @@ class Controller
     $router->any('/get/lbrynet.{os:c}.zip', 'DownloadActions::executeGetDaemonRedirect');
 
     $router->get([ContentActions::URL_NEWS . '/{slug:c}?', 'news'], 'ContentActions::executeNews');
+    $router->get([ContentActions::URL_NEWS . '/tag/{tags}', 'news_tag'], 'ContentActions::executeNewsTag');
     $router->get([ContentActions::URL_FAQ . '/{slug:c}?', 'faq'], 'ContentActions::executeFaq');
     $router->get([ContentActions::URL_BOUNTY . '/{slug:c}?', 'bounty'], 'ContentActions::executeBounty');
     $router->get([ContentActions::URL_PRESS . '/{slug:c}', 'press'], 'ContentActions::executePress');
