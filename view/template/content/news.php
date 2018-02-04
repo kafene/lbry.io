@@ -10,6 +10,12 @@
     </div>
   </div>
   <section class="content content-readable spacer2">
+    <?php if (!empty($tags)): ?>
+      <div class="spacer">
+        showing <?= count($posts) ?> news post<?= count($posts) == 1 ? '' : 's' ?> tagged
+        <?= View::render('content/_tagList', ['tags' => $tags]) ?>
+      </div>
+    <?php endif ?>
     <?php foreach($posts as $post): ?>
       <div class="spacer1">
         <h3><a href="<?php echo $post->getRelativeUrl() ?>" class="link-primary"><?php echo $post->getTitle() ?></a></h3>
