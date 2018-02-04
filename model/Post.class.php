@@ -10,7 +10,7 @@ class Post
         SORT_ORD_ASC = 'sort_ord_asc';
 
   protected static $slugMap = [];
-  protected $path, $slug, $title, $metadata, $author, $date, $markdown, $contentText, $contentHtml, $cover, $postType, $category;
+  protected $path, $slug, $title, $metadata, $author, $date, $markdown, $contentText, $contentHtml, $cover, $postType, $category, $tags;
   protected $isCoverLight = false;
 
   public static function load($relativeOrAbsolutePath)
@@ -63,6 +63,7 @@ class Post
     $this->cover = $frontMatter['cover'] ?? null;
     $this->isCoverLight = isset($frontMatter['cover-light']) && $frontMatter['cover-light'] == 'true';
     $this->category = $frontMatter['category'] ?? null;
+    $this->setTags($frontMatter['tags'] ?? []);
   }
 
   public static function find($folder, $sort = null)
@@ -174,6 +175,21 @@ class Post
   public function getCategory()
   {
     return $this->category;
+  }
+
+  public function getTags(): array
+  {
+    return $this->tags;
+  }
+
+  public function setTags(array $tags)
+  {
+    $this->tags = $tags;
+  }
+
+  public function hasTags(): bool
+  {
+    return !empty($this->getTags());
   }
 
   public function getContentText($wordLimit = null, $appendEllipsis = false)
